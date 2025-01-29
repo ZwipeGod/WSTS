@@ -1,0 +1,187 @@
+[29-01-2025 06:51] : tower of Hanoi
+[29-01-2025 06:51] : import java.util.Scanner;
+public class TowerOfHanoi {
+    public static void main(String[] args) {
+        // Creating a scanner object to take user input
+        Scanner sc = new Scanner(System.in);
+        // Prompt user for the number of disks
+        System.out.print("Enter the number of disks: ");
+        int numDisks = sc.nextInt();        
+        // Start solving the Tower of Hanoi puzzle
+        System.out.println("The sequence of moves are:");
+        tower(numDisks, 'A', 'C', 'B');
+    }
+    static int moveCount = 1;
+    static void tower(int numDisks, char src, char dest, char aux) {
+        // Base case: if there's only one disk, simply move it
+        if (numDisks == 1) {
+            System.out.println("Move disk " + moveCount + " from " + src + " to " + dest);
+            moveCount++;
+            return;
+        }
+        // Move n-1 disks from source to auxiliary peg using destination as auxiliary
+        tower(numDisks - 1, src, aux, dest);
+        // Move the nth disk from source to destination
+        System.out.println("Move disk " + moveCount + " from " + src + " to " + dest);
+        moveCount++;
+        // Move the n-1 disks from auxiliary to destination using source as auxiliary
+        tower(numDisks - 1, aux, dest, src);
+    }
+}
+/////////////////////////////////////////////////////////////////////////////////////////////
+[29-01-2025 06:52] : mergesort
+[29-01-2025 06:52] : import java.util.Arrays;
+public class MergeAndSortArrays {
+    public static int[] mergeAndSort(int[] arr1, int[] arr2) {
+        int n1 = arr1.length;
+        int n2 = arr2.length;
+        // Step 1: Create merged array
+        int[] arr_merged = new int[n1 + n2];
+        // Step 2: Copy arr1 into arr_merged
+        for (int i = 0; i < n1; i++) {
+            arr_merged[i] = arr1[i];
+        }
+        // Step 3: Copy arr2 into arr_merged
+        for (int j = 0; j < n2; j++) {
+            arr_merged[j + n1] = arr2[j];
+        }
+        // Step 4: Sort the merged array
+        Arrays.sort(arr_merged);
+
+        return arr_merged;
+    }
+    public static void main(String[] args) {
+        int[] arr1 = {7, 5, 3, 1}; // First array
+        int[] arr2 = {12, 10, 8, 6, 4, 2}; // Second array
+        int[] sortedMergedArray = mergeAndSort(arr1, arr2);
+        System.out.println("Sorted Merged Array: " + Arrays.toString(sortedMergedArray));
+    }
+}
+//////////////////////////////////////////////////////////////////////////////////////////////
+ [29-01-2025 06:52] : celebrity
+[29-01-2025 06:52] : public class CelebrityProblem {
+    public static int findCelebrity(int[][] matrix, int n) {
+        int candidate = 0;
+        // Step 1: Find the potential celebrity
+        for (int i = 1; i < n; i++) {
+            if (matrix[candidate][i] == 1) {
+                candidate = i;  // If candidate knows person i, then candidate cannot be the celebrity
+            }
+        }
+        // Step 2: Verify the candidate
+        // Check the candidate's row - they should know no one
+        for (int i = 0; i < n; i++) {
+            if (i != candidate && matrix[candidate][i] == 1) {
+                return -1; // Candidate knows someone, not a celebrity
+            }
+        }
+        // Check the candidate's column - everyone should know the candidate
+        for (int i = 0; i < n; i++) {
+            if (i != candidate && matrix[i][candidate] == 0) {
+                return -1; // Someone does not know the candidate
+            }
+        }
+        // Step 3: Return the celebrity index
+        return candidate;
+    }
+    public static void main(String[] args) {
+        int[][] matrix = {
+            {0, 1, 0, 1},
+            {0, 0, 0, 0},
+            {1, 1, 0, 1},
+            {1, 1, 1, 0}
+        };
+        int n = matrix.length;
+        int celebrity = findCelebrity(matrix, n);
+        if (celebrity == -1) {
+            System.out.println("None");
+        } else {
+            System.out.println("Celebrity is at index " + celebrity);
+        }
+    }
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+[29-01-2025 06:52] : stock span
+[29-01-2025 06:52] : import java.util.*;
+public class StockSpan {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        // Input number of days
+        System.out.println("Enter the number of days: ");
+        int n = sc.nextInt();
+        // Input stock prices
+        int[] prices = new int[n];
+        System.out.println("Enter the stock prices for " + n + " days: ");
+        for (int i = 0; i < n; i++) {
+            prices[i] = sc.nextInt();
+        }
+        // Calculate spans
+        int[] spans = calculateSpans(prices, n);
+        // Output the spans
+        System.out.println("The stock spans are: ");
+        for (int span : spans) {
+            System.out.print(span + " ");
+        }
+    }
+    public static int[] calculateSpans(int[] prices, int n) {
+        int[] spans = new int[n]; // Array to store the spans
+        for (int i = 0; i < n; i++) {
+            spans[i] = 1; // Span of at least 1 (current day)
+            // Loop backward to calculate span
+            for (int j = i - 1; j >= 0 && prices[j] <= prices[i]; j--) {
+                spans[i]++;
+            }
+        }
+        return spans;
+    }
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+[29-01-2025 06:53] : sorting without space
+ [29-01-2025 06:52] : import java.util.*;
+public class Main{
+    public static void main(String[] args){
+        Scanner x= new Scanner(System.in);
+        int n=x.nextInt();
+        int []arr=new int[n];
+        int k=x.nextInt();
+        for(int i=0;i<n;i++){
+            System.out.print("\nEnter "+i+": ");
+            arr[i]=x.nextInt();
+        }
+        int []arr1=new int[n-k+1];
+        for(int i=0;i<n-k+1;i++){
+            int max=arr[i];
+            for(int j=i;j<i+k;j++){
+                if(arr[j]>max){
+                    max=arr[j];
+                }
+            }
+            arr1[i]=max;
+        }
+        for(int i=0;i<n-k+1;i++){
+            System.out.print(arr1[i]+" ");
+        }
+    }
+}
+[29-01-2025 06:52] : maximum sliding window
+[29-01-2025 06:53] : import java.util.*;
+public class Main{
+    public static void main(String[] args){
+        Scanner x= new Scanner(System.in);
+        System.out.println("Enter The Value Of n: ");
+        int n=x.nextInt();
+        int arr[]= new int[n];
+        for(int i=0;i<n;i++){
+            arr[i]=x.nextInt();
+        }
+        System.out.println("Original Array: ");
+        for(int i=0;i<n;i++){
+            System.out.print(arr[i]+" ");
+        }
+        Arrays.sort(arr);
+        System.out.println("\nSorted Array: ");
+        for(int i=0;i<n;i++){
+            System.out.print(arr[i]+" ");
+        }
+    }
+}
